@@ -1,3 +1,8 @@
+![Home](demo(1).png)
+
+![Chat](chat.png)
+
+
 # RAGBase info Retrieval
 
 Chat with your own documents. Upload files, ask questions, get grounded, cited,
