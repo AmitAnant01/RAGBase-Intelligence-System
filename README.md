@@ -1,4 +1,4 @@
-# RAGBase PRO — Advanced RAG Chatbot
+# RAGBase info Retrieval
 
 Chat with your own documents. Upload files, ask questions, get grounded, cited,
 streaming answers — plus a stack of features most RAG demos don't bother with.
