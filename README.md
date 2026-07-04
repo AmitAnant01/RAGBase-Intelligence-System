@@ -1,6 +1,4 @@
-![Home](demo(1).png)
-
-![Chat](chat.png)
+ ![App Screenshot](demo(1).png)
 
 
 # RAGBase info Retrieval
