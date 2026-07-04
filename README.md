@@ -1,5 +1,5 @@
 ![App Screenshot](./demo%20(1).png)
-
+![App Screenshot](./demo%20(2).png)
 
 # RAGBase info Retrieval
 
