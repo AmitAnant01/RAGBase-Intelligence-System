@@ -1,14 +1,4 @@
-"""
-RAGBase PRO - Fully Advanced RAG Chatbot
-Author: Amit Anant
-
-Chat with your own documents (PDF/DOCX/PPTX/XLSX/CSV/TXT/MD/HTML/JSON, plus
-OCR fallback for scanned PDFs and images), backed by a hybrid BM25 + vector
-retriever with MMR diversity reranking, streaming Groq responses, persona
-modes, auto-summaries, a Wikipedia-style Research brief generator (with live
-images/related links/maps), an analytics dashboard, and chat export to
-Markdown/PDF.
-"""
+# Importing the required libraries
 
 import os
 import re
@@ -37,9 +27,8 @@ from utils.research import fetch_url_text, build_research_brief, wiki_enrich, ge
 
 load_dotenv()
 
-# ---------------------------------------------------------------------------
 # Configuration
-# ---------------------------------------------------------------------------
+
 UPLOAD_FOLDER = "uploads"
 CHROMA_PATH = "chroma_db"
 HISTORY_FOLDER = "chat_history"
@@ -89,10 +78,7 @@ PERSONAS = {
     "code": "If the documents contain code or technical specs, prioritize precise technical accuracy, use code blocks, and call out edge cases.",
 }
 
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
+# Helper
 def allowed_file(filename: str) -> bool:
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -202,17 +188,14 @@ def cache_key(session_id, message, top_k, persona):
     return hashlib.sha256(raw.encode()).hexdigest()
 
 
-# ---------------------------------------------------------------------------
+
 # Routes - Pages
-# ---------------------------------------------------------------------------
 @app.route("/")
 def index():
     return render_template("index.html")
 
-
-# ---------------------------------------------------------------------------
 # Routes - Document management
-# ---------------------------------------------------------------------------
+
 @app.route("/api/upload", methods=["POST"])
 def upload_file():
     if "files" not in request.files:
@@ -284,9 +267,8 @@ def delete_document(filename):
     return jsonify({"status": "deleted", "documents": get_document_list()})
 
 
-# ---------------------------------------------------------------------------
+
 # Routes - Chat sessions
-# ---------------------------------------------------------------------------
 @app.route("/api/sessions", methods=["GET"])
 def get_sessions():
     return jsonify({"sessions": list_sessions()})
@@ -346,9 +328,9 @@ def export_session(session_id):
         )
 
 
-# ---------------------------------------------------------------------------
+
 # Routes - Chat / RAG core
-# ---------------------------------------------------------------------------
+
 def build_system_prompt(persona: str) -> str:
     persona_instruction = PERSONAS.get(persona, PERSONAS["detailed"])
     return f"""You are RAGBase Assistant, a helpful AI that answers questions strictly using the
@@ -504,10 +486,6 @@ def chat_stream():
     return Response(stream_with_context(generate()), mimetype="text/event-stream")
 
 
-# ---------------------------------------------------------------------------
-# Routes - Research (paste text / paste a link / upload a file -> a
-# Wikipedia-style brief with live images, related links, and a map)
-# ---------------------------------------------------------------------------
 def looks_like_url(s: str) -> bool:
     return bool(re.match(r"^https?://", s.strip(), re.IGNORECASE))
 
@@ -559,17 +537,14 @@ def research():
         return jsonify({"error": f"Research generation failed: {str(e)}"}), 500
 
 
-# ---------------------------------------------------------------------------
+
 # Routes - Analytics
-# ---------------------------------------------------------------------------
+
 @app.route("/api/analytics", methods=["GET"])
 def get_analytics():
     return jsonify(analytics.get_summary())
 
 
-# ---------------------------------------------------------------------------
-# Routes - Misc
-# ---------------------------------------------------------------------------
 @app.route("/api/cache/clear", methods=["POST"])
 def clear_cache():
     bump_cache_version()
